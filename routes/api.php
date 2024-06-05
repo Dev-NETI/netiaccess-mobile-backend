@@ -5,13 +5,17 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\DialingCodeController;
+use App\Http\Controllers\DormitoryController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\NationalityController;
+use App\Http\Controllers\PaymentmodeController;
 use App\Http\Controllers\RankController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SendVerificationCodeController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\TraineeController;
+use App\Http\Controllers\TransportationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +23,20 @@ Route::resource('courses', CoursesController::class)->only([
     'index',
     'show',
 ]);
+
+Route::resource('schedule', ScheduleController::class)->only([
+    'show'
+]);
+
+Route::resource('dormitory', DormitoryController::class)->only([
+    'show'
+]);
+
+Route::resource('transportation', TransportationController::class)->only([
+    'index'
+]);
+
+Route::get('payment-mode/{courseId}/{fleetId}', [PaymentmodeController::class, 'show']);
 
 Route::resource('nationality', NationalityController::class)->only([
     'index'
