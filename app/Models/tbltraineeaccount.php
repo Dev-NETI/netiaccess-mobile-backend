@@ -23,8 +23,21 @@ class tbltraineeaccount  extends Authenticatable implements AuthenticatableContr
     protected $primaryKey = 'traineeid';
     use HasFactory;
     protected $fillable = [
-        'login_attempt_count', 'lockout_timestamp', 'vessel', 'f_name', 'm_name', 'l_name', 'suffix', 'email', 'dialing_code_id', 'contact_num', 'status_id', 'company_id', 'fleet_id', 'vessel', 'srn_num', 'tin_num'
+        'login_attempt_count', 'lockout_timestamp', 'f_name', 'm_name', 'l_name', 'suffix', 
+        'email', 'contact_num', 'status_id', 'company_id', 'fleet_id', 'vessel', 'srn_num', 'tin_num',
+        'birthday', 'birthplace', 'genderid', 'nationalityid', 'rank_id', 'dialing_code_id', 'password', 'regCode',
+        'provCode', 'citynumCode', 'brgyCode', 'street', 'postal', 'address'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $traineeData = $model::orderBy('traineeid', 'DESC')->first();
+            $hash_id = $traineeData != NULL ? encrypt($traineeData->id + 1) : encrypt(1);
+            $model->hash_id = $hash_id;
+        });
+    }
 
     public function formal_name()
     {

@@ -13,7 +13,7 @@ class CoursesController extends Controller
      */
     public function index()
     {
-        $courseData = tblcourses::with('type')->where('deletedid',0)->get();
+        $courseData = tblcourses::with('type')->where('deletedid', 0)->get();
         // return CourseResource::collection($courseData);
         return response()->json($courseData);
     }
@@ -33,10 +33,14 @@ class CoursesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($searchInput)
     {
-        $courseData = tblcourses::where('courseid', $id)->first();
-        return CourseResource::make($courseData);
+        $courseData = tblcourses::where(function ($query) use ($searchInput) {
+            $query->where('coursecode', 'LIKE', '%' . $searchInput . '%')
+                ->orWhere('coursename', 'LIKE', '%' . $searchInput . '%');
+        })->get();
+
+        return response()->json($courseData);
     }
 
     /**

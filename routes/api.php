@@ -9,6 +9,7 @@ use App\Http\Controllers\GenderController;
 use App\Http\Controllers\NationalityController;
 use App\Http\Controllers\RankController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\SendVerificationCodeController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\TraineeController;
 use Illuminate\Http\Request;
@@ -46,6 +47,9 @@ Route::resource('company', CompanyController::class)->only([
 
 Route::get('trainee/check-email/{email}', [TraineeController::class, 'checkEmail']);
 Route::get('trainee/check-mobile/{dialingCodeId}/{mobileNumber}', [TraineeController::class, 'checkMobile']);
+Route::post('trainee/store', [TraineeController::class, 'store']);
+
+Route::get('send-verification-code', SendVerificationCodeController::class);
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
