@@ -9,16 +9,54 @@ use Illuminate\Support\Facades\Auth;
 
 class tblenroled extends Model
 {
+    protected $bypassBoot = false;
     protected $table = 'tblenroled';
     protected $primaryKey = 'enroledid';
-    protected $fillable = ['pendingid', 'deletedid', 'billingserialnumber', 'reservationstatusid', 'dormid', 'attendance_status','nabillnaid'];
+    protected $fillable = [
+        'registrationcode',
+        'scheduleid',
+        'courseid',
+        'traineeid',
+        'paymentmodeid',
+        'fleetid',
+        'dateconfirmed',
+        'enrolledby',
+        't_fee_price',
+        't_fee_package',
+        'checkindate',
+        'checkoutdate',
+        'dorm_price',
+        'meal_price',
+        'busid',
+        'busmodeid',
+        'total',
+        'pendingid',
+        'deletedid',
+        'billingserialnumber',
+        'reservationstatusid',
+        'dormid',
+        'attendance_status',
+        'nabillnaid'
+    ];
     use HasFactory;
 
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
-        static::creating(function($model){
-            $model->enrolledby= Auth::guard('trainee')->check() ? Auth::guard('trainee')->user()->name_for_meal:Auth::user()->full_name;
+
+        static::creating(function ($model) {
+            if (!$model->bypassBoot) {
+                $model->enrolledby = Auth::guard('trainee')->check()
+                    ? Auth::guard('trainee')->user()->name_for_meal
+                    : Auth::user()->full_name;
+            }
         });
+    }
+
+    public function bypassBoot()
+    {
+        $this->bypassBoot = true;
+        return $this;
     }
 
     public function schedule()
@@ -138,12 +176,12 @@ class tblenroled extends Model
 
     public function getEnrollmentStatusAttribute()
     {
-        if($this->pendingid === 0 && $this->deletedid === 0){
-            $badge='<span class="badge bg-success">Enrolled</span>';
-        }else if($this->pendingid === 0 && $this->deletedid === 1){
-            $badge='<span class="badge bg-danger">Drop</span>';
-        }else{
-            $badge='<span class="badge bg-warning">Pending</span>';
+        if ($this->pendingid === 0 && $this->deletedid === 0) {
+            $badge = '<span class="badge bg-success">Enrolled</span>';
+        } else if ($this->pendingid === 0 && $this->deletedid === 1) {
+            $badge = '<span class="badge bg-danger">Drop</span>';
+        } else {
+            $badge = '<span class="badge bg-warning">Pending</span>';
         }
         return $badge;
     }

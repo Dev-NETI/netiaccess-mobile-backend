@@ -6,6 +6,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\DialingCodeController;
 use App\Http\Controllers\DormitoryController;
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\NationalityController;
 use App\Http\Controllers\PaymentmodeController;
@@ -21,6 +22,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('courses', CoursesController::class)->only([
     'index',
+    'show',
+]);
+
+Route::resource('enrollment', EnrollmentController::class)->only([
+    'store',
     'show',
 ]);
 
