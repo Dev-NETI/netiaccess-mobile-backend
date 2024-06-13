@@ -43,6 +43,13 @@ class CoursesController extends Controller
         return response()->json($courseData);
     }
 
+    public function showCourse($courseId)
+    {
+        $courseData = tblcourses::where('courseid', $courseId)->first();
+
+        return response()->json($courseData);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

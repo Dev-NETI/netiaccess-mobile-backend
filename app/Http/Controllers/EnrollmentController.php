@@ -176,6 +176,26 @@ class EnrollmentController extends Controller
         return response()->json($enrollmentData, 200);
     }
 
+    public function checkExistingEnrollment($courseId, $traineeId)
+    {
+        $enrollmentData = tblenroled::where('courseid', $courseId)
+            ->where('traineeid', $traineeId)->first();
+
+        if (!$enrollmentData) {
+            return response()->json(false);
+        }
+        return response()->json(true);
+    }
+
+    public function getLatestEnrollment($traineeId)
+    {
+        $latestEnrollmentData = tblenroled::where('traineeid', $traineeId)
+            ->with(['schedule','dorm'])
+            ->first();
+
+        return response()->json($latestEnrollmentData, 200);
+    }
+
     /**
      * Update the specified resource in storage.
      */

@@ -24,11 +24,14 @@ Route::resource('courses', CoursesController::class)->only([
     'index',
     'show',
 ]);
+Route::get('courses/selected/{courseId}', [CoursesController::class, 'showCourse']);
 
 Route::resource('enrollment', EnrollmentController::class)->only([
     'store',
     'show',
 ]);
+Route::get('enrollment/check/{courseId}/{traineeId}', [EnrollmentController::class, 'checkExistingEnrollment']);
+Route::get('enrollment/getLatestEnrollment/{traineeId}', [EnrollmentController::class, 'getLatestEnrollment']);
 
 Route::resource('schedule', ScheduleController::class)->only([
     'show'
