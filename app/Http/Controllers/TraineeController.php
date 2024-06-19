@@ -80,4 +80,45 @@ class TraineeController extends Controller
             return response()->json(false, 422);
         }
     }
+
+    public function show($traineeId)
+    {
+        $traineeData = tbltraineeaccount::where('traineeid', $traineeId)
+            ->with(['rank'])
+            ->first();
+
+        if (!$traineeData) {
+            return response()->json(false, 400);
+        }
+
+        return response()->json($traineeData, 200);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'traineeId' => 'required',
+            'confirmPassword' => 'required',
+        ]);
+
+        $traineeData = tbltraineeaccount::where('traineeid', $request->input('traineeId'))->first();
+
+        if (!$traineeData) {
+            return response()->json(false, 404);
+        }
+
+        try {
+            $update = $traineeData->update([
+                'password' => Hash::make($request->input('confirmPassword'))
+            ]);
+
+            if (!$update) {
+                return response()->json(false, 400);
+            }
+
+            return response()->json(true, 201);
+        } catch (Exception $e) {
+            return response()->json(false, 422);
+        }
+    }
 }

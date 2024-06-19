@@ -74,7 +74,8 @@ Route::resource('company', CompanyController::class)->only([
 
 Route::get('trainee/check-email/{email}', [TraineeController::class, 'checkEmail']);
 Route::get('trainee/check-mobile/{dialingCodeId}/{mobileNumber}', [TraineeController::class, 'checkMobile']);
-Route::post('trainee/store', [TraineeController::class, 'store']);
+Route::patch('trainee/updatePassword', [TraineeController::class, 'updatePassword']);
+Route::resource('trainee', TraineeController::class)->only(['store', 'show']);
 
 Route::get('send-verification-code', SendVerificationCodeController::class);
 
