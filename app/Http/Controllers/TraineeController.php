@@ -94,14 +94,21 @@ class TraineeController extends Controller
         return response()->json($traineeData, 200);
     }
 
-    public function updatePassword(Request $request)
+    public function updatePassword($traineeId, Request $request)
     {
         $request->validate([
-            'traineeId' => 'required',
-            'confirmPassword' => 'required',
+            'confirmPassword' => [
+                'required',
+                'string',
+                'min:8',             // Minimum length of 8 characters
+                'regex:/[a-z]/',     // At least one lowercase letter
+                'regex:/[A-Z]/',     // At least one uppercase letter
+                'regex:/[0-9]/',     // At least one digit
+                'regex:/[@$!%*?&#]/' // At least one special character
+            ],
         ]);
 
-        $traineeData = tbltraineeaccount::where('traineeid', $request->input('traineeId'))->first();
+        $traineeData = tbltraineeaccount::where('traineeid', $traineeId)->first();
 
         if (!$traineeData) {
             return response()->json(false, 404);
@@ -110,6 +117,37 @@ class TraineeController extends Controller
         try {
             $update = $traineeData->update([
                 'password' => Hash::make($request->input('confirmPassword'))
+            ]);
+
+            if (!$update) {
+                return response()->json(false, 400);
+            }
+
+            return response()->json(true, 201);
+        } catch (Exception $e) {
+            return response()->json(false, 422);
+        }
+    }
+
+    public function updateContact($traineeId, Request $request)
+    {
+        $request->validate([
+            'contactNumber' => 'required',
+            'dialingCode' => 'required',
+            'email' => 'email|required',
+        ]);
+
+        $traineeData = tbltraineeaccount::where('traineeid', $traineeId)->first();
+
+        if (!$traineeData) {
+            return response()->json(false, 404);
+        }
+
+        try {
+            $update = $traineeData->update([
+                'email' => $request['email'],
+                'dialing_code_id' => $request['dialingCode'],
+                'contact_num' => $request['contactNumber'],
             ]);
 
             if (!$update) {
