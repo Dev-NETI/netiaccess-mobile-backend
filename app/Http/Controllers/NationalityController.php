@@ -12,7 +12,7 @@ class NationalityController extends Controller
      */
     public function index()
     {
-        $nationalityData = tblnationality::where('deletedid',0)->orderBy('nationality','asc')->get();
+        $nationalityData = tblnationality::where('deletedid', 0)->orderBy('nationality', 'asc')->get();
         return response()->json($nationalityData);
     }
 
@@ -31,11 +31,15 @@ class NationalityController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function show($id)
-    // {
-    //     $nationalityData = tblnationality::find($id);
-    //     return response()->json($nationalityData);
-    // }
+    public function show($id)
+    {
+        $nationalityData = tblnationality::where('nationalityid', $id)->first();
+        if (!$nationalityData) {
+            return response()->json(false, 404);
+        }
+
+        return response()->json($nationalityData, 200);
+    }
 
     /**
      * Show the form for editing the specified resource.

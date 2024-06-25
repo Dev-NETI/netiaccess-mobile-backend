@@ -159,4 +159,45 @@ class TraineeController extends Controller
             return response()->json(false, 422);
         }
     }
+
+    public function update($id, Request $request)
+    {
+        $request->validate([
+            'firstname' => 'required|min:2|max:30',
+            'middlename' => 'required|min:2|max:30',
+            'lastname' => 'required|min:2|max:30',
+            'dateOfBirth' => 'required',
+            'placeOfBirth' => 'required|min:2|max:500',
+            'gender' => 'required',
+            'nationality' => 'required',
+        ]);
+
+        $traineeData = tbltraineeaccount::where('traineeid', $id)->first();
+
+        if (!$traineeData) {
+            return response()->json(false, 404);
+        }
+
+        try {
+            $update = $traineeData->update([
+                'f_name' => $request['firstname'],
+                'm_name' => $request['middlename'],
+                'l_name'  => $request['lastname'],
+                'suffix' => $request['suffix'],
+                'birthday' => $request['dateOfBirth'],
+                'birthplace' => $request['placeOfBirth'],
+                'genderid' => $request['gender'],
+                'nationalityid' => $request['nationality'],
+            ]);
+
+            if (!$update) {
+                return response()->json(false, 400);
+            }
+
+            return response()->json(true, 201);
+        } catch (Exception $e) {
+
+            return response()->json($e, 422);
+        }
+    }
 }

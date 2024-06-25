@@ -48,11 +48,11 @@ Route::resource('transportation', TransportationController::class)->only([
 Route::get('payment-mode/{courseId}/{fleetId}', [PaymentmodeController::class, 'show']);
 
 Route::resource('nationality', NationalityController::class)->only([
-    'index'
+    'index', 'show'
 ]);
 
 Route::resource('gender', GenderController::class)->only([
-    'index'
+    'index', 'show'
 ]);
 
 Route::resource('dialing-code', DialingCodeController::class)->only([
@@ -76,7 +76,7 @@ Route::get('trainee/check-email/{email}', [TraineeController::class, 'checkEmail
 Route::get('trainee/check-mobile/{dialingCodeId}/{mobileNumber}', [TraineeController::class, 'checkMobile']);
 Route::patch('trainee/updatePassword/{traineeId}', [TraineeController::class, 'updatePassword']);
 Route::put('trainee/updateContact/{traineeId}', [TraineeController::class, 'updateContact']);
-Route::resource('trainee', TraineeController::class)->only(['store', 'show']);
+Route::resource('trainee', TraineeController::class)->only(['store', 'show', 'update']);
 
 Route::get('send-verification-code', SendVerificationCodeController::class);
 

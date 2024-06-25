@@ -12,7 +12,7 @@ class GenderController extends Controller
      */
     public function index()
     {
-        $genderData = tblgender::orderBy('genderid','asc')->get();
+        $genderData = tblgender::orderBy('genderid', 'asc')->get();
         return response()->json($genderData);
     }
 
@@ -30,9 +30,14 @@ class GenderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(tblgender $tblgender)
+    public function show($genderId)
     {
-        //
+        $genderData = tblgender::where('genderid', $genderId)->first();
+        if (!$genderData) {
+            return response()->json(false, 404);
+        }
+
+        return response()->json($genderData, 200);
     }
 
     /**
