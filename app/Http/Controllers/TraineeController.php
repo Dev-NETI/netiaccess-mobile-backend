@@ -44,12 +44,47 @@ class TraineeController extends Controller
                 'street' => $request['street'],
                 'postal' => $request['postalCode'],
             ];
+            $addressValidationRules = [
+                'region' => 'required',
+                'province' => 'required',
+                'city' => 'required',
+                'brgy' => 'required',
+                'street' => 'required|min:2|max:100',
+                'postalCode' => 'required|numeric',
+            ];
         } else {
             // foreign
             $addressAttribute = [
                 'address' => $request['fullAddress'],
             ];
+            $addressValidationRules = [
+                'fullAddress' => 'required|min:2|max:100',
+            ];
         }
+
+        $validationRules = [
+            'firstname' => 'required|min:2|max:100',
+            'middlename' => 'required|min:2|max:100',
+            'lastname' => 'required|min:2|max:100',
+            'dateOfBirth' => 'required',
+            'placeOfBirth' => 'required|min:2|max:100',
+            'gender' => 'required',
+            'nationality' => 'required',
+            'rank' => 'required',
+            'company' => 'required',
+            'email' => 'required|email|min:2|max:100',
+            'dialingCode' => 'required',
+            'contactNumber' => 'required|min:2|max:100',
+            'password' => [
+                'required',
+                'string',
+                'min:8',             // Minimum length of 8 characters
+                'regex:/[a-z]/',     // At least one lowercase letter
+                'regex:/[A-Z]/',     // At least one uppercase letter
+                'regex:/[0-9]/',     // At least one digit
+                'regex:/[@$!%*?&#]/' // At least one special character
+            ],
+        ];
 
         $attributes = [
             'f_name' => $request['firstname'],
@@ -65,9 +100,10 @@ class TraineeController extends Controller
             'email' => $request['email'],
             'dialing_code_id' => $request['dialingCode'],
             'contact_num' => $request['contactNumber'],
-            'password' => Hash::make($request['confirmPassword']),
+            'password' => Hash::make($request['password']),
         ];
 
+        $request->validate(array_merge($addressValidationRules, $validationRules));
         try {
             $store = tbltraineeaccount::create(array_merge($attributes, $addressAttribute));
 
