@@ -103,7 +103,7 @@ class TraineeController extends Controller
             'password' => Hash::make($request['password']),
         ];
 
-        $request->validate(array_merge($addressValidationRules, $validationRules));
+        // $request->validate(array_merge($addressValidationRules, $validationRules));
         try {
             $store = tbltraineeaccount::create(array_merge($attributes, $addressAttribute));
 

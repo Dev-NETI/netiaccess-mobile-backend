@@ -17,6 +17,7 @@ use App\Http\Controllers\SendVerificationCodeController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\TraineeController;
 use App\Http\Controllers\TransportationController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -80,6 +81,8 @@ Route::resource('trainee', TraineeController::class)->only(['store', 'show', 'up
 
 Route::get('send-verification-code', SendVerificationCodeController::class);
 
+
+Route::get('user/rank/{rankId}', [UserController::class, 'getRank']);
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });

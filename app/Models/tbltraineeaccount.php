@@ -23,7 +23,7 @@ class tbltraineeaccount  extends Authenticatable implements AuthenticatableContr
     protected $primaryKey = 'traineeid';
     use HasFactory;
     protected $fillable = [
-        'login_attempt_count', 'lockout_timestamp', 'f_name', 'm_name', 'l_name', 'suffix', 
+        'login_attempt_count', 'lockout_timestamp', 'f_name', 'm_name', 'l_name', 'suffix',
         'email', 'contact_num', 'status_id', 'company_id', 'fleet_id', 'vessel', 'srn_num', 'tin_num',
         'birthday', 'birthplace', 'genderid', 'nationalityid', 'rank_id', 'dialing_code_id', 'password', 'regCode',
         'provCode', 'citynumCode', 'brgyCode', 'street', 'postal', 'address'
