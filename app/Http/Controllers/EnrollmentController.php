@@ -27,6 +27,21 @@ class EnrollmentController extends Controller
      */
     public function store(Request $request)
     {
+        // validation 
+        $validationRules = [
+            'scheduleId' => 'required',
+            'paymentModeId' => 'required',
+            'busModeId' => 'required',
+        ];
+        $dormValidation = [
+            'dormId' => 'required',
+            'checkInDate' => 'required',
+            'checkOutDate' => 'required',
+        ];
+        // $request->validate($request['isChecked'] === true
+        //     ? array_merge($validationRules, $dormValidation)
+        //     : $validationRules);
+        // validation end
         $scheduleData = tblcourseschedule::find($request['scheduleId']);
         $courseData = tblcourses::find($request['course']);
         $trainingFee = $courseData->trainingfee;
@@ -43,7 +58,6 @@ class EnrollmentController extends Controller
             'dateconfirmed' => Carbon::now('Asia/Manila'),
             'enrolledby' => $request['traineeName'],
         ];
-
 
         if ($scheduleData->startdateformat && $request['busModeId'] == 2 && $courseData->coursetypeid != 1) {
             $trainingFee = $courseData->atdpackage3;
@@ -190,7 +204,7 @@ class EnrollmentController extends Controller
     public function getLatestEnrollment($traineeId)
     {
         $latestEnrollmentData = tblenroled::where('traineeid', $traineeId)
-            ->with(['schedule','dorm'])
+            ->with(['schedule', 'dorm'])
             ->first();
 
         return response()->json($latestEnrollmentData, 200);
