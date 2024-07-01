@@ -76,7 +76,7 @@ class tblcourseschedule extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'instructorid','user_id');
+        return $this->belongsTo(User::class, 'instructorid', 'user_id');
     }
 
     // ENCAPSULATION

@@ -20,7 +20,7 @@ class tblcourses extends Model
     public function location()
 
     {
-        return $this->belongsTo(tblcourselocation::class, 'courselocationid');
+        return $this->belongsTo(tblcourselocation::class, 'courselocationid', 'courselocationid');
     }
 
     public function rank_level()

@@ -31,6 +31,7 @@ Route::resource('enrollment', EnrollmentController::class)->only([
     'store',
     'show',
 ]);
+Route::get('enrollment/showSelectedCourse/{enroledId} ', [EnrollmentController::class, 'showSelectedCourse']);
 Route::get('enrollment/check/{courseId}/{traineeId}', [EnrollmentController::class, 'checkExistingEnrollment']);
 Route::get('enrollment/getLatestEnrollment/{traineeId}', [EnrollmentController::class, 'getLatestEnrollment']);
 

@@ -190,6 +190,18 @@ class EnrollmentController extends Controller
         return response()->json($enrollmentData, 200);
     }
 
+    public function showSelectedCourse($enroledId)
+    {
+        $enrollmentData = tblenroled::where('enroledid', $enroledId)
+            ->with(['course', 'schedule', 'course.mode', 'course.location'])->first();
+
+        if (!$enrollmentData) {
+            return response()->json(false, 404);
+        }
+
+        return response()->json($enrollmentData, 200);
+    }
+
     public function checkExistingEnrollment($courseId, $traineeId)
     {
         $enrollmentData = tblenroled::where('courseid', $courseId)
