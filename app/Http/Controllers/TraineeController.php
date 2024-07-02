@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\refprovince;
 use App\Models\tbltraineeaccount;
 use Exception;
 use Illuminate\Http\Request;
@@ -30,6 +31,25 @@ class TraineeController extends Controller
         }
 
         return response()->json(true); //number is already registered
+    }
+
+    public function getTraineeAddressDropdown($traineeId)
+    {
+        $addressData = tbltraineeaccount::with('prov')->where('traineeid', $traineeId)->first();
+        $regData = $addressData->reg->regDesc;
+        $provData = refprovince::where('provCode', 'LIKE', '%' . $addressData->provCode . '%')->first();
+        $cityData = $addressData->city->citymunDesc;
+        $brgyData = $addressData->brgy->brgyDesc;
+
+        if (!$addressData) {
+            return response()->json(false);
+        }
+        return response()->json([
+            'region' => $regData,
+            'state' => $provData->provDesc,
+            'city' => $cityData,
+            'brgy' => $brgyData,
+        ]);
     }
 
     public function store(Request $request)
@@ -108,6 +128,56 @@ class TraineeController extends Controller
             $store = tbltraineeaccount::create(array_merge($attributes, $addressAttribute));
 
             if (!$store) {
+                return response()->json(false, 400);
+            }
+
+            return response()->json(true, 201);
+        } catch (Exception $e) {
+            return response()->json(false, 422);
+        }
+    }
+
+    public function updateAddress($traineeId, Request $request)
+    {
+        if ($request["selectedSwitch"] == 1) {
+            // local
+            $addressAttribute = [
+                'regCode' => $request['region'],
+                'provCode' => $request['province'],
+                'citynumCode' => $request['city'],
+                'brgyCode' => $request['brgy'],
+                'street' => $request['street'],
+                'postal' => $request['postalCode'],
+            ];
+            $addressValidationRules = [
+                'region' => 'required',
+                'province' => 'required',
+                'city' => 'required',
+                'brgy' => 'required',
+                'street' => 'required|min:2|max:100',
+                'postalCode' => 'required|numeric',
+            ];
+        } else {
+            // foreign
+            $addressAttribute = [
+                'address' => $request['fullAddress'],
+            ];
+            $addressValidationRules = [
+                'fullAddress' => 'required|min:2|max:100',
+            ];
+        }
+
+        // $request->validate(addressValidationRules);
+
+        try {
+            $traineeData = tbltraineeaccount::where('traineeid', $traineeId)->first();
+
+            if (!$traineeData) {
+                return response()->json(false, 400);
+            }
+
+            $update = $traineeData->update($addressAttribute);
+            if (!$update) {
                 return response()->json(false, 400);
             }
 

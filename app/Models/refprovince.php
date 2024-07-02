@@ -11,4 +11,9 @@ class refprovince extends Model
     protected $primaryKey = 'id';
 
     use HasFactory;
+
+    public function trainee()
+    {
+        return $this->hasMany(tbltraineeaccount::class, 'provCode', 'provCode');
+    }
 }

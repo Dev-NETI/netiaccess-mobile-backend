@@ -11,4 +11,9 @@ class refcitymun extends Model
     protected $primaryKey = 'id';
 
     use HasFactory;
+
+    // public function trainee()
+    // {
+    //     return $this->hasMany(refcitymun::class, 'citynumCode', 'citynumCode');
+    // }
 }
