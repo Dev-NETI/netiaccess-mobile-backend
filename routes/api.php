@@ -77,8 +77,10 @@ Route::resource('company', CompanyController::class)->only([
 Route::get('trainee/check-email/{email}', [TraineeController::class, 'checkEmail']);
 Route::get('trainee/check-mobile/{dialingCodeId}/{mobileNumber}', [TraineeController::class, 'checkMobile']);
 Route::get('trainee/address/{traineeId}', [TraineeController::class, 'getTraineeAddressDropdown']);
+Route::get('trainee/employment-info/{traineeId}', [TraineeController::class, 'getTraineeEmployment']);
 Route::patch('trainee/updatePassword/{traineeId}', [TraineeController::class, 'updatePassword']);
 Route::patch('trainee/updateAddress/{traineeId}', [TraineeController::class, 'updateAddress']);
+Route::patch('trainee/updateEmployment/{traineeId}', [TraineeController::class, 'updateEmployment']);
 Route::put('trainee/updateContact/{traineeId}', [TraineeController::class, 'updateContact']);
 Route::resource('trainee', TraineeController::class)->only(['store', 'show', 'update']);
 

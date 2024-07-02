@@ -52,6 +52,16 @@ class TraineeController extends Controller
         ]);
     }
 
+    public function getTraineeEmployment($traineeId)
+    {
+        $addressData = tbltraineeaccount::with(['company', 'rank'])->where('traineeid', $traineeId)->first();
+
+        if (!$addressData) {
+            return response()->json(false);
+        }
+        return response()->json($addressData);
+    }
+
     public function store(Request $request)
     {
         if ($request["selectedSwitch"] == 1) {
@@ -177,6 +187,34 @@ class TraineeController extends Controller
             }
 
             $update = $traineeData->update($addressAttribute);
+            if (!$update) {
+                return response()->json(false, 400);
+            }
+
+            return response()->json(true, 201);
+        } catch (Exception $e) {
+            return response()->json(false, 422);
+        }
+    }
+
+    public function updateEmployment($traineeId, Request $request)
+    {
+        // $request->validate([
+        //     'rank' => 'required',
+        //     'company' => 'required',
+        // ]);
+
+        try {
+            $traineeData = tbltraineeaccount::where('traineeid', $traineeId)->first();
+
+            if (!$traineeData) {
+                return response()->json(false, 400);
+            }
+
+            $update = $traineeData->update([
+                'rank_id' => $request['rank'],
+                'company_id' => $request['company'],
+            ]);
             if (!$update) {
                 return response()->json(false, 400);
             }
