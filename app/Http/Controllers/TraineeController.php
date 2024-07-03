@@ -130,7 +130,7 @@ class TraineeController extends Controller
             'email' => $request['email'],
             'dialing_code_id' => $request['dialingCode'],
             'contact_num' => $request['contactNumber'],
-            'password' => Hash::make($request['password']),
+            'password' => Hash::make($request->input('confirmPassword'))
         ];
 
         // $request->validate(array_merge($addressValidationRules, $validationRules));
@@ -255,7 +255,7 @@ class TraineeController extends Controller
         $traineeData = tbltraineeaccount::where('traineeid', $traineeId)->first();
 
         if (!$traineeData) {
-            return response()->json(false, 404);
+            return response()->json(false, 200);
         }
 
         try {
@@ -264,12 +264,12 @@ class TraineeController extends Controller
             ]);
 
             if (!$update) {
-                return response()->json(false, 400);
+                return response()->json(false, 200);
             }
 
             return response()->json(true, 201);
         } catch (Exception $e) {
-            return response()->json(false, 422);
+            return response()->json(false, 200);
         }
     }
 

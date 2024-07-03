@@ -184,7 +184,7 @@ class EnrollmentController extends Controller
             ->with(['course', 'schedule'])->get();
 
         if (!(count($enrollmentData) > 0)) {
-            return response()->json(NULL, 404);
+            return response()->json(false);
         }
 
         return response()->json($enrollmentData, 200);
