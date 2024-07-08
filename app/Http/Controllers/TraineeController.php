@@ -36,10 +36,10 @@ class TraineeController extends Controller
     public function getTraineeAddressDropdown($traineeId)
     {
         $addressData = tbltraineeaccount::with('prov')->where('traineeid', $traineeId)->first();
-        $regData = $addressData->reg->regDesc;
+        $regData = optional($addressData->reg)->regDesc;
         $provData = refprovince::where('provCode', 'LIKE', '%' . $addressData->provCode . '%')->first();
-        $cityData = $addressData->city->citymunDesc;
-        $brgyData = $addressData->brgy->brgyDesc;
+        $cityData = optional($addressData->city)->citymunDesc;
+        $brgyData = optional($addressData->brgy)->brgyDesc;
 
         if (!$addressData) {
             return response()->json(false);
@@ -306,15 +306,15 @@ class TraineeController extends Controller
 
     public function update($id, Request $request)
     {
-        $request->validate([
-            'firstname' => 'required|min:2|max:30',
-            'middlename' => 'required|min:2|max:30',
-            'lastname' => 'required|min:2|max:30',
-            'dateOfBirth' => 'required',
-            'placeOfBirth' => 'required|min:2|max:500',
-            'gender' => 'required',
-            'nationality' => 'required',
-        ]);
+        // $request->validate([
+        //     'firstname' => 'required|min:2|max:30',
+        //     'middlename' => 'required|min:2|max:30',
+        //     'lastname' => 'required|min:2|max:30',
+        //     'dateOfBirth' => 'required',
+        //     'placeOfBirth' => 'required|min:2|max:500',
+        //     'gender' => 'required',
+        //     'nationality' => 'required',
+        // ]);
 
         $traineeData = tbltraineeaccount::where('traineeid', $id)->first();
 
