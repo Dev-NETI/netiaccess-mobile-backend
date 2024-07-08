@@ -74,6 +74,7 @@ Route::resource('company', CompanyController::class)->only([
     'index'
 ]);
 
+Route::get('trainee/get-trainee-id/{email}', [TraineeController::class, 'getTraineeId']);
 Route::get('trainee/check-email/{email}', [TraineeController::class, 'checkEmail']);
 Route::get('trainee/check-mobile/{dialingCodeId}/{mobileNumber}', [TraineeController::class, 'checkMobile']);
 Route::get('trainee/address/{traineeId}', [TraineeController::class, 'getTraineeAddressDropdown']);

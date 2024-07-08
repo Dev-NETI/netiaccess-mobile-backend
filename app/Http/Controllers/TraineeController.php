@@ -62,6 +62,16 @@ class TraineeController extends Controller
         return response()->json($addressData);
     }
 
+    public function getTraineeId($email)
+    {
+        $traineeId = tbltraineeaccount::where('email', $email)->first();
+
+        if (!$traineeId) {
+            return response()->json(false);
+        }
+        return response()->json($traineeId->traineeid);
+    }
+
     public function store(Request $request)
     {
         if ($request["selectedSwitch"] == 1) {
