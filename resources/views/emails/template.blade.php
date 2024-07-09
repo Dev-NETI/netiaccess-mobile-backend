@@ -1,4 +1,4 @@
-@include('mails.header')
+@include('emails.header')
 
 
 <table id="u_content_text_3" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0"
@@ -43,4 +43,4 @@
 
 
 
-@include('mails.footer')
+@include('emails.footer')

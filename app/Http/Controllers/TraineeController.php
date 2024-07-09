@@ -140,7 +140,7 @@ class TraineeController extends Controller
             'email' => $request['email'],
             'dialing_code_id' => $request['dialingCode'],
             'contact_num' => $request['contactNumber'],
-            'password' => Hash::make($request->input('confirmPassword'))
+            'password' => Hash::make($request->input('confirmPassword')),
         ];
 
         // $request->validate(array_merge($addressValidationRules, $validationRules));

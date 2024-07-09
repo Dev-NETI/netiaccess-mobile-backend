@@ -6,6 +6,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\DialingCodeController;
 use App\Http\Controllers\DormitoryController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\NationalityController;
@@ -13,7 +14,6 @@ use App\Http\Controllers\PaymentmodeController;
 use App\Http\Controllers\RankController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\ScheduleController;
-use App\Http\Controllers\SendVerificationCodeController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\TraineeController;
 use App\Http\Controllers\TransportationController;
@@ -85,8 +85,7 @@ Route::patch('trainee/updateEmployment/{traineeId}', [TraineeController::class, 
 Route::put('trainee/updateContact/{traineeId}', [TraineeController::class, 'updateContact']);
 Route::resource('trainee', TraineeController::class)->only(['store', 'show', 'update']);
 
-Route::get('send-verification-code', SendVerificationCodeController::class);
-
+Route::get('email/send-verification-code/{recipient}/{verificationCode}', [EmailController::class, 'sendVerificationCode']);
 
 Route::get('user/rank/{rankId}', [UserController::class, 'getRank']);
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {

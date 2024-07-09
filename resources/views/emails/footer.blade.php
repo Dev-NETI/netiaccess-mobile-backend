@@ -34,9 +34,12 @@
 
                                         <div
                                             style="font-size: 14px; color: #ffffff; line-height: 210%; text-align: center; word-wrap: break-word;">
-                                            <p style="font-size: 14px; line-height: 210%;"><span
+                                            <p style="font-size: 14px; line-height: 210%;">
+                                                <span
                                                     style="font-family: Lato, sans-serif; font-size: 14px; line-height: 29.4px;">&copy;2024
-                                                    NETI-SGA | NYK-Fil Maritime E-Training, Inc.</span></p>
+                                                    NETI-OEX | NYK-Fil Maritime E-Training, Inc.
+                                                </span>
+                                            </p>
                                         </div>
 
                                     </td>
