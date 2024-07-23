@@ -156,7 +156,8 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    'domain' => '.netiaccess.com',
+    // 'domain' => env('SESSION_DOMAIN'),
 
     /*
     |--------------------------------------------------------------------------
